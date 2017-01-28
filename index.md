@@ -20,7 +20,9 @@ Markdown is a lightweight and easy-to-use syntax for styling your writing. It in
     <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue"></canvas>
     
 </body>
+<footer>
 <p>No, this is.</p>
+</footer>
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
