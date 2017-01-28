@@ -15,16 +15,22 @@ Markdown is a lightweight and easy-to-use syntax for styling your writing. It in
     <script type="text/javascript" src="./gameengine.js"></script>
     <script type="text/javascript" src="./assetmanager.js"></script>
     <script type="text/javascript" src="./main.js"></script>
+     <style type ="text/css" >
+           .footer{ 
+               position: fixed;     
+               text-align: center;    
+               bottom: 0px; 
+               width: 100%;
+           }  
+        </style>
 </head>
 <body>
     <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue">
-    <div class="footer">All Rights Reserved</div>
+   <div class="footer">All Rights Reserved</div>
     </canvas>
     
 </body>
-<footer>
-<p>No, this is.</p>
-</footer>
+ <div class="footer">All Rights Reserved</div>
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
