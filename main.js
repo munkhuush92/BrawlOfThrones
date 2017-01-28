@@ -95,8 +95,10 @@ function Unicorn(game) {
 	this.leftWalkAnimation = new Animation(ASSET_MANAGER.getAsset("./img/kenbig.png"), 0, 238, 368, 238, 0.1, 10, true, false);
 	this.rightWalkAnimation = new Animation(ASSET_MANAGER.getAsset("./img/kenbig.png"), 0, 476, 368, 238, 0.1, 10, true, false);
     this.boomAnimation = new Animation(ASSET_MANAGER.getAsset("./img/kenbig.png"), 0, 714, 368, 238, 0.1, 8, false, false);
+	this.kickAnimation = new Animation(ASSET_MANAGER.getAsset("./img/kenbig.png"), 0, 952, 368, 238, 0.1, 10, false, false);
     //testing
     this.booming = false;
+    this.kicking = false;
     //endoftesting
     this.radius = 100;
 	this.speed  = 100;
@@ -120,6 +122,16 @@ Unicorn.prototype.update = function () {
 
     }
     //endoftesting
+    if(this.game.kick){
+      this.kicking = true;
+    }
+    if(this.kicking){
+      if(this.kickAnimation.isDone()){
+        this.kickAnimation.elapsedTime = 0;
+        this.kicking = false;
+      }
+
+    }
 	
 	  if (this.x > 800) this.x = -230;
     if(Key.isDown(Key.RIGHT)){
@@ -139,7 +151,9 @@ Unicorn.prototype.update = function () {
 Unicorn.prototype.draw = function (ctx) {
 	if(this.booming){
       this.boomAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-    }else {
+    }else if(this.kicking){
+		this.kickAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+	}else {
 		
 		 if(Key.isDown(Key.RIGHT)){
 			this.rightWalkAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
