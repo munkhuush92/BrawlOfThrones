@@ -25,7 +25,7 @@ Markdown is a lightweight and easy-to-use syntax for styling your writing. It in
         </style>
 </head>
 <body>
-    <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue">
+    <canvas id="gameWorld" tabindex="1" width="800" height="600" style="border: 1px solid brown; background: lightskyblue">
    <div class="footer">All Rights Reserved</div>
     </canvas>
     
