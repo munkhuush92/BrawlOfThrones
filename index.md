@@ -9,17 +9,16 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
+<head>
+    <meta charset="utf-8">
+    <title>Game Project Shell</title>
+    <script type="text/javascript" src="./gameengine.js"></script>
+    <script type="text/javascript" src="./assetmanager.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+</head>
+<body>
+    <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue"></canvas>
+</body>
 
 **Bold** and _Italic_ and `Code` text
 
