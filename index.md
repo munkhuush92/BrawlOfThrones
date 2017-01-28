@@ -18,6 +18,7 @@ Markdown is a lightweight and easy-to-use syntax for styling your writing. It in
 </head>
 <body>
     <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue"></canvas>
+    <p>No, this is.</p>
 </body>
 
 **Bold** and _Italic_ and `Code` text
