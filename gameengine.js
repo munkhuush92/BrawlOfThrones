@@ -65,7 +65,10 @@ GameEngine.prototype.startInput = function () {
         if (String.fromCharCode(e.which) === 'D'){
            that.boom = true;
            console.log('boom!');
-         }else{
+         }else if(String.fromCharCode(e.which) === 'S'){
+			 that.kick = true;
+			 console.log('kick!');
+		 }else{
 			   Key.onKeydown(e);
 		 }
         e.preventDefault();
@@ -116,8 +119,9 @@ GameEngine.prototype.loop = function () {
     this.clockTick = this.timer.tick();
     this.update();
     this.draw();
-    this.space = null;
+	this.kick = null;
     this.boom= null;
+	
 }
 
 function Entity(game, x, y) {
