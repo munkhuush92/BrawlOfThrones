@@ -17,7 +17,9 @@ Markdown is a lightweight and easy-to-use syntax for styling your writing. It in
     <script type="text/javascript" src="./main.js"></script>
 </head>
 <body>
-    <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue"></canvas>
+    <canvas id="gameWorld" tabindex="1" width="800" height="700" style="border: 1px solid brown; background: lightskyblue">
+    <p>Press 'd' for punching</p>
+    </canvas>
     
 </body>
 <footer>
