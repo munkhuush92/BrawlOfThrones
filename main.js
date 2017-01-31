@@ -34,7 +34,7 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, frameDu
 }
 
 Animation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy) {
-    var scaleBy = -scaleBy || 1;
+    var scaleBy = scaleBy || 1;
     this.elapsedTime += tick;
     if (this.loop) {
         if (this.isDone()) {
@@ -61,8 +61,8 @@ Animation.prototype.drawFrame = function (tick, ctx, x, y, scaleBy) {
                   index * this.frameWidth + offset, vindex * this.frameHeight +this.startY,  // source from sheet
                   this.frameWidth, this.frameHeight,
                   locX, locY,
-                  this.frameWidth * scaleBy,
-                  this.frameHeight * scaleBy);
+                  this.frameWidth * -scaleBy,
+                  this.frameHeight * -scaleBy);
 }
 
 Animation.prototype.currentFrame = function () {
