@@ -11,7 +11,6 @@ window.requestAnimFrame = (function () {
             };
 })();
 
-
 function Timer() {
     this.gameTime = 0;
     this.maxStep = 0.05;
@@ -41,6 +40,9 @@ function GameEngine() {
 
 GameEngine.prototype.init = function (ctx) {
     this.ctx = ctx;
+	//testing
+	
+	//end of testing
     this.surfaceWidth = this.ctx.canvas.width;
     this.surfaceHeight = this.ctx.canvas.height;
     this.startInput();
@@ -60,25 +62,24 @@ GameEngine.prototype.start = function () {
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
-
+		this.hp = 100;
     this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (String.fromCharCode(e.which) === 'D'){
-           that.boom = true;
-           console.log('boom!');
-         }else if(String.fromCharCode(e.which) === 'S'){
-			 that.kick = true;
-			 console.log('kick!');
-		 }else{
-			   Key.onKeydown(e);
-		 }
+        if (String.fromCharCode(e.which) === ' ') that.space = true;
+        else if (String.fromCharCode(e.which) === 'D') that.punch = true;
+        else if (String.fromCharCode(e.which) === 'S') that.kick = true;
+        else if (String.fromCharCode(e.which) === "'") {that.left = false; that.right = true; that.walk = true;}
+        else if (String.fromCharCode(e.which) === "%") {that.left = true; that.right = false; that.walk = true;}
         e.preventDefault();
     }, false);
-	
-	 this.ctx.canvas.addEventListener("keyup", function (e) {
-        Key.onKeyup(e);
+    
+        this.ctx.canvas.addEventListener("keyup", function (e) {
+        if (String.fromCharCode(e.which) === "'" || String.fromCharCode(e.which) === "%") that.walk = false;
+        // else if (String.fromCharCode(e.which) === "%") that.left = false;
+        // else if (String.fromCharCode(e.which) === ' ') that.space = false;
+        // else if (String.fromCharCode(e.which) === 'D') that.punch = false;
+        // else if (String.fromCharCode(e.which) === 'S') that.kick = false;
         e.preventDefault();
     }, false);
-
 
     console.log('Input started');
 }
@@ -113,15 +114,16 @@ GameEngine.prototype.update = function () {
             this.entities.splice(i, 1);
         }
     }
+	
 }
 
 GameEngine.prototype.loop = function () {
     this.clockTick = this.timer.tick();
     this.update();
     this.draw();
-	this.kick = null;
-    this.boom= null;
-	
+    this.space = null;
+    this.punch = null;
+    this.kick = null;
 }
 
 function Entity(game, x, y) {
@@ -135,12 +137,25 @@ Entity.prototype.update = function () {
 }
 
 Entity.prototype.draw = function (ctx) {
+	this.game.ctx.fillStyle="#FF0000";
+	this.game.ctx.fillRect(850,0,1*140,25);
+	this.game.ctx.fillRect(20,0,1*140,25);
+	if(this.game.entities[1].hp>0){
+	this.game.ctx.fillStyle="#00FF00";
+	//Health bar Player two on the right
+	this.game.ctx.fillRect(20,0,(this.game.entities[1].hp/100)*140,25);
+	}
+	if(this.game.entities[0].hp>0){
+	//Health bar Player one on the left
+	this.game.ctx.fillRect(850,0,(this.game.entities[0].hp/100)*140,25);
+	}
     if (this.game.showOutlines && this.radius) {
         this.game.ctx.beginPath();
         this.game.ctx.strokeStyle = "green";
         this.game.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.game.ctx.stroke();
         this.game.ctx.closePath();
+		
     }
 }
 
@@ -156,7 +171,5 @@ Entity.prototype.rotateAndCache = function (image, angle) {
     offscreenCtx.translate(0, 0);
     offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
     offscreenCtx.restore();
-    //offscreenCtx.strokeStyle = "red";
-    //offscreenCtx.strokeRect(0,0,size,size);
     return offscreenCanvas;
 }
