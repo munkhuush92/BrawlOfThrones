@@ -75,10 +75,22 @@ function Unicorn(game) {
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/ken.png"), 0, 0, 150, 150, 0.1, 10, true, false);
     this.walkAnimation = new Animation(ASSET_MANAGER.getAsset("./img/ken.png"), 0, 1 * 150, 150, 150, 0.1, 10, true, false);
     this.jumpAnimation = new Animation(ASSET_MANAGER.getAsset("./img/ken.png"), 0, 2 * 150, 150, 150, 0.1, 10, false, false);
-    this.punchAnimation = new Animation(ASSET_MANAGER.getAsset("./img/ken.png"), 0, 3 * 150, 150, 150, 0.1, 10, false, false);
+    this.punchAnimation = new Animation(ASSET_MANAGER.getAsset("./img/ken.png"), 0, 4 * 150, 150, 150, 0.1, 10, false, false);
     this.kickAnimation = new Animation(ASSET_MANAGER.getAsset("./img/ken.png"), 0, 5 * 150, 150, 150, 0.1, 10, false, false);
     this.fallAnimation = new Animation(ASSET_MANAGER.getAsset("./img/ken.png"), 0, 6 * 150, 150, 150, 0.1, 10, false, false);
-	this.noCollision = true;
+    // sound effect variables
+    this.punchingSound = new Audio("./sound/punch.wav");
+    this.walkingSound = new Audio("./sound/walking2.wav");
+    this.kickingSound = new Audio("./sound/kick.wav");
+    this.jumpingSound = new Audio("./sound/jump.wav");
+    this.backgroundMusic = new Audio("./sound/backgroundsound.mp3");
+    this.dyingSound = new Audio("./sound/dying.wav");
+    // need to be implemented getting sound
+    this.gethitSound = new Audio("./sound/gettinghit.wav");
+    this.isGameOver = false;
+    this.backgroundMusic.play();
+
+  this.noCollision = true;
 	this.opponentOnLeft = true;
     this.walking = false;
     this.jumping = false;
@@ -96,14 +108,30 @@ Unicorn.prototype = new Entity();
 Unicorn.prototype.constructor = Unicorn;
 
 Unicorn.prototype.update = function () {
+    // if the game is in process play the sound
+
     if (this.game.walk) this.walking = true; else this.walking = false;
     if (this.game.left) { this.left = true; this.right = false; } else { this.left = false; this.right = true };
     if (this.game.space) {
+      this.jumpingSound.play();
 		this.jumping = true;
 		this.hp -=1;
+    if(this.hp==0){
+      isGameOver= true;
+      this.backgroundMusic.pause();
+      this.dyingSound.play();
+    }
 	}
-    if (this.game.punch) this.punching = true;
-    if (this.game.kick) this.kicking = true;
+
+
+    if (this.game.punch) {
+      this.punching = true;
+      this.punchingSound.play();
+    }
+    if (this.game.kick){
+      this.kicking = true;
+       this.kickingSound.play();
+     }
     if (this.jumping) {
         if (this.jumpAnimation.isDone()) {
             this.jumpAnimation.elapsedTime = 0;
@@ -118,8 +146,8 @@ Unicorn.prototype.update = function () {
         //var height = jumpDistance * 2 * totalHeight;
         var height = totalHeight * (-4 * (jumpDistance * jumpDistance - jumpDistance));
         this.y = this.ground - height;
-		//REDUCING HP 
-		
+		//REDUCING HP
+
     }
 
     if (this.falling) {
@@ -140,8 +168,10 @@ Unicorn.prototype.update = function () {
 
     if (this.punching) {
         if (this.punchAnimation.isDone()) {
+
             this.punchAnimation.elapsedTime = 0;
             this.punching = false;
+
         }
     }
 
@@ -153,6 +183,7 @@ Unicorn.prototype.update = function () {
     }
 
     if (this.walking && this.right) {
+        this.walkingSound.play();
         this.x += 2;
         if (this.x > 660) {
             this.falling = true;
@@ -160,6 +191,7 @@ Unicorn.prototype.update = function () {
     }
 
     if (this.walking && this.left && this.noCollision && this.opponentOnLeft) {
+      this.walkingSound.play();
         this.x -= 2;
         if (this.x < 125) {
             console.log(this.x);
@@ -174,6 +206,7 @@ Unicorn.prototype.draw = function (ctx) {
     if (this.jumping) {
         this.jumpAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     } else if (this.punching) {
+
         this.punchAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     } else if (this.kicking) {
         this.kickAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
@@ -265,6 +298,7 @@ ASSET_MANAGER.downloadAll(function () {
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
 
+
     var gameEngine = new GameEngine();
     var bg = new Background(gameEngine);
     var unicorn = new Unicorn(gameEngine);
@@ -273,7 +307,7 @@ ASSET_MANAGER.downloadAll(function () {
     //gameEngine.addEntity(bg);
     gameEngine.addEntity(unicorn);
 	  gameEngine.addEntity(char2);
-	
+
     gameEngine.init(ctx);
     gameEngine.start();
 });
