@@ -40,9 +40,6 @@ function GameEngine() {
 
 GameEngine.prototype.init = function (ctx) {
     this.ctx = ctx;
-	//testing
-	
-	//end of testing
     this.surfaceWidth = this.ctx.canvas.width;
     this.surfaceHeight = this.ctx.canvas.height;
     this.startInput();
@@ -62,16 +59,17 @@ GameEngine.prototype.start = function () {
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
-		this.hp = 100;
+
     this.ctx.canvas.addEventListener("keydown", function (e) {
         if (String.fromCharCode(e.which) === ' ') that.space = true;
         else if (String.fromCharCode(e.which) === 'D') that.punch = true;
         else if (String.fromCharCode(e.which) === 'S') that.kick = true;
-        else if (String.fromCharCode(e.which) === "'") {that.left = false; that.right = true; that.walk = true;}
-        else if (String.fromCharCode(e.which) === "%") {that.left = true; that.right = false; that.walk = true;}
+        else if (String.fromCharCode(e.which) === "'") {that.playerLeft = false; that.playerRight = true; that.walk = true;}
+        else if (String.fromCharCode(e.which) === "%") {that.playerLeft = true; that.playerRight = false; that.walk = true;}
         e.preventDefault();
+        // console.log(String.fromCharCode(e.which));
     }, false);
-    
+
         this.ctx.canvas.addEventListener("keyup", function (e) {
         if (String.fromCharCode(e.which) === "'" || String.fromCharCode(e.which) === "%") that.walk = false;
         // else if (String.fromCharCode(e.which) === "%") that.left = false;
@@ -79,6 +77,7 @@ GameEngine.prototype.startInput = function () {
         // else if (String.fromCharCode(e.which) === 'D') that.punch = false;
         // else if (String.fromCharCode(e.which) === 'S') that.kick = false;
         e.preventDefault();
+        // console.log("up" + String.fromCharCode(e.which));
     }, false);
 
     console.log('Input started');
@@ -114,7 +113,6 @@ GameEngine.prototype.update = function () {
             this.entities.splice(i, 1);
         }
     }
-	
 }
 
 GameEngine.prototype.loop = function () {
@@ -137,25 +135,12 @@ Entity.prototype.update = function () {
 }
 
 Entity.prototype.draw = function (ctx) {
-	this.game.ctx.fillStyle="#FF0000";
-	this.game.ctx.fillRect(850,0,1*140,25);
-	this.game.ctx.fillRect(20,0,1*140,25);
-	if(this.game.entities[1].hp>0){
-	this.game.ctx.fillStyle="#00FF00";
-	//Health bar Player two on the right
-	this.game.ctx.fillRect(20,0,(this.game.entities[1].hp/100)*140,25);
-	}
-	if(this.game.entities[0].hp>0){
-	//Health bar Player one on the left
-	this.game.ctx.fillRect(850,0,(this.game.entities[0].hp/100)*140,25);
-	}
     if (this.game.showOutlines && this.radius) {
         this.game.ctx.beginPath();
         this.game.ctx.strokeStyle = "green";
         this.game.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.game.ctx.stroke();
         this.game.ctx.closePath();
-		
     }
 }
 
