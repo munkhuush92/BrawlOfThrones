@@ -135,6 +135,19 @@ Entity.prototype.update = function () {
 }
 
 Entity.prototype.draw = function (ctx) {
+    //HP CODE
+    this.game.ctx.fillStyle="#FF0000";
+	this.game.ctx.fillRect(850,0,1*140,25);
+	this.game.ctx.fillRect(20,0,1*140,25);
+	if(this.game.entities[1].hp>0){
+	this.game.ctx.fillStyle="#00FF00";
+	//Health bar Player two on the right
+	this.game.ctx.fillRect(20,0,(this.game.entities[1].hp/100)*140,25);
+	}
+	if(this.game.entities[0].hp>0){
+	//Health bar Player one on the left
+	this.game.ctx.fillRect(850,0,(this.game.entities[0].hp/100)*140,25);
+	}
     if (this.game.showOutlines && this.radius) {
         this.game.ctx.beginPath();
         this.game.ctx.strokeStyle = "green";
